@@ -256,8 +256,8 @@ module RubySesame
                                                                                 ![:subj, :pred, :obj, :context, :infer].include?(k)
                                                                               }))
       http = Net::HTTP.start(uri.host, uri.port)
-      http.delete(uri.path)
-      raise(SesameException.new(easy.body_str)) unless easy.response_code == 204
+      response = http.delete(uri.path)
+      raise(SesameException.new(response_code.body)) unless response_code.code.to_i == 204
     end # delete_statements!
 
     # Convenience method; deletes all data from the repository.
@@ -336,8 +336,8 @@ module RubySesame
     def delete_namespace!(prefix)
       uri = URI.parse(self.uri + "/namespaces/" + URI.escape(prefix))
       http = Net::HTTP.start(uri.host, uri.port)
-      http.delete(uri.path)
-      raise(SesameException.new(easy.body_str)) unless easy.response_code == 204
+      response = http.delete(uri.path)
+      raise(SesameException.new(response_code.body)) unless response_code.code.to_i == 204
     end
 
     # Deletes all namespaces in the repository.
